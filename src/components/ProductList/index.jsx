@@ -1,10 +1,12 @@
+// ProductList.js
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { deleteAction } from '../../redux/actions/productAction';
+import './ProductList.css'; // Import the CSS file
 
 const ProductList = () => {
-  const products = useSelector((state) => state.products);
+  const { products } = useSelector((state) => state.products);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -13,18 +15,28 @@ const ProductList = () => {
   };
 
   return (
-    <div>
-      <h1>Product List</h1>
-      <ul>
+    <div className="product-list">
+      <h2>Our Products</h2>
+      <ul className="product-items">
         {products.map((product) => (
-          <li key={product.id}>
-            {product.name} - ${product.price}
-            <button onClick={() => navigate(`/edit/${product.id}`)}>Edit</button>
-            <button onClick={() => handleDeleteProduct(product.id)}>Delete</button>
+          <li className="product-item" key={product.id}>
+            <span>
+              {product.name} - ${product.price}
+            </span>
+            <div className="product-actions">
+              <button className="edit-button" onClick={() => navigate(`/products/edit/${product.id}`)}>
+                Edit
+              </button>
+              <button className="delete-button" onClick={() => handleDeleteProduct(product.id)}>
+                Delete
+              </button>
+            </div>
           </li>
         ))}
       </ul>
-      <button onClick={() => navigate('/add')}>Add New Product</button>
+      <button className="add-button" onClick={() => navigate('/products/add')}>
+        Add New Product
+      </button>
     </div>
   );
 };
